@@ -1,0 +1,27 @@
+database
+we wont be having public ip for db instead we will have end point url.
+
+multi zone db-> for disaster recovery and high availability.
+
+read replica-> its just a copy or replica of primary db, in read replicas we cannot create                records but it will be having same records as primary db, one more main advantage  	       is if primary db is not working then we can conver read replica db into primary                db forcefully and all the permission which prebios db had will come to                read replica.
+
+steps
+1. create a SG add mysql port for everyone or custom based on requirement.
+2. go to RDS->create db->standard create->select mysql->select a version->select dev/test in template->credentials setting-> user-root passwd- akash@-728-> select storage type-> general purpose->enable storage autoscaling-> select multi-Az->select               vps and subnet-> public access yes->cloose existing SG which we created in               step 1-> select az->additional configuration->give db name-> enable auto               backup->enable delete protection->
+3. create ec2 instance->select the subnet same as db subnet->create sg with 80,22 and 3306                         ports.
+4. copy the endping link of db from RDS.
+5. login to ec2 instance-> install httpd, start, chkconfig httpd on-> and host a website.
+6. install myql in ec2-> start service and enable
+7. to connect to db instance 
+   a. mysql -h <end_point from step4-> -P 3306 -u root  -p 
+	we can enter password in command line and we can now connect to our db
+   b. show databases; ->use akashdb; ->show tables;
+
+Read replicas
+
+1. go to databases-> select our db-> (create read replica works only if the backup is enabled in fb)->selecty actions-> click on create read replica-> public access yes->create replica
+2. copy the endping link of readreplica from RDS.
+3. to connect to db instance 
+   a. mysql -h <end_point of read replica from step2-> -P 3306 -u root  -p 
+	we can enter password in command line and we can now connect to our read replica now         we can acess data from primary db and we cant write data in read replica.
+4. to make read replica as primary db forcefully -> go to rds-> select read replica-> go to actions-> select promote->enable auto backup-> min 30 days->promote read replica

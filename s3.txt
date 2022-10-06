@@ -1,0 +1,26 @@
+S3- simple storage service(object based storage)(its global bucket name should be unique).
+by default objects in the bucket are private so if we want to access create bucket with public access and make object public.
+
+lifecycle
+s3 standard-> when we create bucket by default it will be in s3 standard, stored in 3 AZs,               99.99% aval, if we are frequently access data we use this.
+
+s3-infrequently accessed-> for the data which is accessed less frequently but required rapid       			   access, low charge then s3 stanard.
+
+s3-1-zone IA->data will be stored in only 1 data center or az, low cost compared to above.
+
+s3 intelligent tiering-> machine learning peoples will use it.
+
+s3 glacier-> secure, durable, low cost storage class for data archiving, retrival time  	     configurable from minutes to hours.
+
+s3 glacier deep archive->lowest storage class with data retrival time of 12hrs.
+
+steps
+1. go to s3-> give name, select region-> uncheck block all public access-> create bucket.
+
+2. we can store 1 bucket logs in another bucket. create 2 buckets-> go to 1st bucket ->    properties->enable server access logging-> select target bucket i.e 2nd bucket
+3. if we want to encrypt data we can enable default encryption-> select encryption type and       save.
+4. we can get notifications by creating  event notification.
+5. we can enable versioning for maintaining the versions of same file when data inside same file    changes, we can keep track of all the versions of the objects and we can also recover the    deleted data if we enable versioning.
+6. static website hosting->enable-> host static website-> give the files names which is uploaded    in our bucket i.e index.html and error.html->save. after this we will get a url in static web    hosting section in properties.
+7. in management -> create lifecycle-> we can select the appropriate options and save.
+8. in management-> cross region replication-> if we have s3 buckets in 2 diff regions if we have to enable replication and then add files in 1st bucket from 1st region then the data will be automatically replicated to 2nd bucket from 2nd region-> create replication rules->choose a bucket in this acc or if we can we can choose bucket from diff acc also-> im iam roles select create new role->save

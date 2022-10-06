@@ -1,0 +1,8 @@
+AUTO SCALING
+
+1. create ec2 instance -> create sg with http and ssh ports open.
+2. install httpd -> chkconfig httpd on -> copy html file to /var/www/html/
+3. create snapshot or image from from the current ec2 instance in amis u can see image
+4. go to auto scaling -> launch configuration-> create launch configuration -> select image
+   which we create in last step -> select the same sg as in previous step(port 22 & 80)-> create
+5. go to auto scaling group -> creat asg -> switch to launch configuration -> select launch    confg which we created in last step -> select a vpc and select all the subnet groups for high    availability in all az -> select a load balancer -> select desired capacity, min and max    capacity -> scaling policy select as traget tracking scaling policy -> select metric type and    give target value(if we give 60% and if cpu utilization is crosses 60% it will create few    more instances) -> add notification -> give email for all the alert notification -> now after    creating automatically the servers will be created from the image. 

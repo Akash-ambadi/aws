@@ -1,0 +1,26 @@
+lambda
+
+we can do automaction and we want to run serverless application we can do it.
+
+if we can to start or stop any instance at a particular tim and we need to take backup at particular time then we use lambda.
+
+drawback is someone need to push that code manually or by using cloud watch
+
+steps
+1. create ec2 instrance-> open 80 and 22 ports
+2. create iam role->roles->create role-> click on lambda->permissions->do not select any       policy just empty policy->create role.
+3. select the created role-> attach policy or add inline policy-> in json section add the      developer developed json code-> review policy->give relevent name and create policy.
+4. go to lambda->create function->give name->select the code which developed developed-         >click on change default execution role->use existing role->create function-> remove       default code->copy stop ec2 instance code->give region and instance id in the same code-     >click on deploy-> search for basic settings and click on edit-> edit timeout to 10s-      >savenow scroll up and click on test _ give name and create->click again on test-> but       here we are clicking manually so we can automate it by using cloud watch (we have events    and service using cronjob)
+5. click on cloud watch->click on events->get started-> schedule and select cron    expressions->add target-> select our function->create rule.
+
+backup of volumes using lambda
+
+1. create iam role->roles->create role-> click on lambda->permissions->do not select any       policy just empty policy->create role.
+
+2. select the created role-> attach policy or add inline policy-> in json section add the      developer developed json code for automation-> review policy->give relevent name and create policy.
+
+3. create ec2 instce and later launching go to tags->manage tags-> add tag-> key: backup, value: yes->now any instance that have these tags and all the instces with same tag will be backed up.
+
+4. go to lambda-> created function-> give name-> select language-> select existing role->remove default code and paste code developed by our developed
+
+

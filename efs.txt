@@ -1,0 +1,9 @@
+EFS- Elastic File System
+
+1. create a SG-> select inbound rule(ssh 22 from anywhere), HTTP anywhere and nfs anywhere for      efs to support -> create SG.
+2. go to efs-> create file system->give name and select vpc and click on customize->enable ato      backup(in realtime) and keep everything default-> select vpc-> from manage targets remove    default sg -> select the efs sg which is created in last step for all the AZs->click on next.
+3. click on file system-> click on file system which we created-> click on attach-> we will get    some info and we just need that info to add in ec2 instance. 
+4. create 2 ec2 instances-> select efs-SG which is created in step1-> login to both instcances    and install efs(yum install efs* -y)->  mkdir /efs and copy the command or link which we get     when we click on attach in step 3 and at last beside efs add /.
+5. cd /efs-> create a test file
+6. in 2nd ec2 instance mkdir /efs and copy the command or link which we get when we click on        attach in step 3 and at last beside efs add /.
+6. now we caN see the test file created in 1st ec2 server in 2nd ec2 server.

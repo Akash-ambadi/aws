@@ -1,0 +1,32 @@
+LOAD BALANCERS 
+
+we wont be having public ip for load balancers if we wnt to access we have use DNS name
+
+classic lb
+
+1. create a ec2 instance -> install httpd -> host a website 
+2. create a ec2 instance in same or another AZ in same region-> install httpd -> host a website
+3. go to load balancer -> select classic load balancer(port 80) -> select a sg with only port 80    -> config health checks -> add both instances -> create.
+3. classic load balancer will equaly distribute the load among the 2 servers. 
+
+Network lb
+
+it can handle millions of request at a time (we commonly use this in ecommerce websites or in streaming websites like netflix, amazon prime etc)
+
+1. create a ec2 instance -> install httpd -> host a website 
+2. create a ec2 instance in same or another AZ in same region-> install httpd -> host a website
+3. go to load balancer -> select network lb(port 80)-> select vpc and select all AZs ->  select    sg with port 80 -> configure routing-> create new network group & leave everything same ->       register targets-> select both instances and click add to registered-> review and create
+
+Application lb
+
+it is a bit different 
+
+1. connect to a instance-> go to /var/www/html/index.html-> add some data -> rename it to          image.html
+2. another ec2 instace will have index.html file inm /var/www/html/
+3. click on target group-> create target group-> instace->give tg name(http:80)-> health check->    give path as /index.html-> next-> select instance which have index.html->click include an       pending below->create tg
+4. create one more TG->	give name(let everything be same)-> give healthcheck path as /image.html
+   ->select instance with image.html-> click include as pending below-> create TG.
+5. go to load balancer-> create application lb-> select vpc and select all subnets-> select sg      with port 80-> select existing TG which has index.html-> click on registered target-> review     and create.
+6. select application lb-> click on listeners-> select existing lister and click on view/edit    rules-> click on plus mark -> click on insert rules -> add confition->path->*index*-> in    then-> forward to select TG with index.html->save.
+7. click on insert rules -> add confition->path->*image*-> in    then-> forward to select TG       with image.html->save.
+8. access website through DNS name and by default we will get data in index.html and if we want    to see data in image.html just add /image.html to the DNS name and search.

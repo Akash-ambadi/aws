@@ -1,0 +1,21 @@
+vpc peering
+
+we can connect 2 vpcs from 2 diff regions with help of vpc peering.
+vpc peering is ntg but trust relationship btw 2 vpcs from diff regions, if trust is created then the instances in 1 region can communicate with other instances in diff region with help of vpc peering.
+
+steps
+1. create vpc in 1st region, create public and private subnets, create public and private route table, create internet gateway and attach it to vpc, add public and private subnets to public and private route tabels, attach internet gateway in publi route table routes.
+
+2. create vpc in 2nd region, create public and private subnets, create public and private route table, create internet gateway and attach it to vpc, add public and private subnets to public and private route tabels, attach internet gateway in publi route table routes.
+
+3. go to 1st region vpc and go to peering connection -> create peering connecting-> give name and select requester-> select my ac or another acc->select another region-> select region and add accepter as 2nd vpc in 2nd region-> click create peering.
+
+4. now go to 2nd region vpc-> peering connection-> select vpc-> actions-> accept request-> now we have truster relation between both vpcs.
+
+5. so for both vpcs to communicate -> go to 1st regiom vpc->route table->select public RT->routes->edit routes-> add 2nd region vpc cidr range(10.1.0.0/16)-> search peering connect and select->save routes and do same in private RT
+
+6. now go to 2nd ragion vpc->oute table->select public RT->routes->edit routes-> add 1st region vpc cidr range(10.2.0.0/16)-> search peering connect and select->save routes and do same in private RT
+
+7. now crete ec2 in both regions by selecting particular vpcs-> open http and ssh-> after launching install httpd and host a website.
+
+8. login to 1st region server-> copy the 2nd region private pem key and add to vi mumbai.pem->give 400 permission for tha mumbai.pem file-> we can normally connect through public ip but as we establisher vpc peering we can connect through private ip also. ssh -i mumbai.pem ec2-user@<private-ip>.
